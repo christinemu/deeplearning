@@ -10,8 +10,8 @@ from torch import nn
 import torchvision
 from torch.utils import data
 from torchvision import transforms
-from IPython.core.interactiveshell import InteractiveShell
-InteractiveShell.ast_node_interactivity='all'
+# from IPython.core.interactiveshell import InteractiveShell
+# InteractiveShell.ast_node_interactivity='all'
 
 
 # <div class="container-fluid">
@@ -103,12 +103,12 @@ lenet = torch.nn.Sequential(
 
 
 # 生成数据
-X = torch.rand(size=(1,1,28,28), dtype=torch.float32)
+# X = torch.rand(size=(1,1,28,28), dtype=torch.float32)
 
-# 打印每层的名称和形状
-for layer in lenet:
-    X = layer(X)
-    print(layer.__class__.__name__, 'output shape: \t ', X.shape)
+# # 打印每层的名称和形状
+# for layer in lenet:
+#     X = layer(X)
+#     print(layer.__class__.__name__, 'output shape: \t ', X.shape)
 
 
 # <div class="alert alert-danger" style="font-family:Microsoft YaHei"><b>MNist数据集</b></div>
@@ -141,7 +141,7 @@ for layer in lenet:
 
 
 import sys
-sys.path.append('/home/teaching/slides/deeplearning/3_linear_network')
+sys.path.append('../3_linear_network')
 # 将load_data_fashion_mnist函数所在路径加入系统环境变量路径中
 
 from softmax_regression_scratch import load_data_fashion_mnist, Accumulator, Animator, accuracy
@@ -150,8 +150,8 @@ from softmax_regression_scratch import load_data_fashion_mnist, Accumulator, Ani
 # In[7]:
 
 
-batch_size = 256 
-train_iter, test_iter = load_data_fashion_mnist(batch_size=batch_size)
+# batch_size = 256 
+# train_iter, test_iter = load_data_fashion_mnist(batch_size=batch_size)
 
 
 # In[19]:
@@ -222,8 +222,7 @@ def train_ch6(net, train_iter, test_iter, num_epochs, lr, device):# 比之前的
     net.to(device)
     optimizer = torch.optim.SGD(net.parameters(), lr=lr)
     loss = nn.CrossEntropyLoss()
-    animator = Animator(xlabel='epoch', xlim=[1, num_epochs],
-                            legend=['train loss', 'train acc', 'test acc'],figsize=(12,8))
+    # animator = Animator(xlabel='epoch', xlim=[1, num_epochs],legend=['train loss', 'train acc', 'test acc'],figsize=(12,8))
     timer, num_batches = Timer(), len(train_iter)
     for epoch in range(num_epochs):
         metric = Accumulator(3)
@@ -241,11 +240,11 @@ def train_ch6(net, train_iter, test_iter, num_epochs, lr, device):# 比之前的
             timer.stop()
             train_l = metric[0] / metric[2] 
             train_acc = metric[1] / metric[2]
-            if (i + 1) % (num_batches // 5) == 0 or i == num_batches - 1:  
-                animator.add(epoch + (i + 1) / num_batches,
-                             (train_l, train_acc, None))
+            # if (i + 1) % (num_batches // 5) == 0 or i == num_batches - 1:  
+            #     animator.add(epoch + (i + 1) / num_batches,
+            #                  (train_l, train_acc, None))
         test_acc = evaluate_accuracy_gpu(net, test_iter)
-        animator.add(epoch + 1, (None, None, test_acc))  
+        # animator.add(epoch + 1, (None, None, test_acc))  
     print(f'loss {train_l:.3f}, train acc {train_acc:.3f}, '
           f'test acc {test_acc:.3f}')
     print(f'{metric[2] * num_epochs / timer.sum():.1f} examples/sec '
@@ -285,8 +284,8 @@ def try_gpu(i=0):
 # In[21]:
 
 
-lr, num_epochs = 0.9, 10
-train_ch6(lenet, train_iter, test_iter, num_epochs, lr, try_gpu())
+# lr, num_epochs = 0.9, 10
+# train_ch6(lenet, train_iter, test_iter, num_epochs, lr, try_gpu())
 
 
 # 从模型表现来看，
